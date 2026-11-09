@@ -20,13 +20,13 @@
   <body>
     <h1>ERP feedback autofill</h1>
     <p class="hint">
-      Answers are picked by option label, so one setting covers theory and lab forms.
-      The extension never types the captcha and never presses Submit.
+      Autofill types only the answers you save here. Answers are picked by option label, so one setting covers
+      theory and lab forms. The extension never types the security code and never presses Submit.
     </p>
+    <p id="unsaved" class="bad" hidden>Not saved yet: Autofill stays off until you check these answers and press Save.</p>
 
     <fieldset>
       <legend>Ratings</legend>
-      <label><input type="checkbox" id="autoFill" /> Fill each form as soon as it loads</label>
       <div class="row">
         <div><label for="rating">Excellent ... Poor questions</label><select id="rating"></select></div>
         <div><label for="pace">Pace of teaching</label><select id="pace"></select></div>
@@ -37,7 +37,10 @@
 
     <fieldset>
       <legend>Comments</legend>
-      <p class="hint">Strength and weakness: 10 to 50 words. Suggestions: at least 10 words. Every comment: at most 500 characters.</p>
+      <p class="hint">
+        Strength and weakness: 10 to 50 words. Suggestions: at least 10 words. Every comment: at most 500 characters.
+        Line breaks and double spaces become single spaces, because the ERP rejects them.
+      </p>
       <label for="teacherStrength">Teacher strength (lab forms use this too)</label>
       <textarea id="teacherStrength"></textarea><div class="hint" data-for="teacherStrength"></div>
       <label for="teacherWeakness">Teacher weakness (lab forms use this too)</label>
@@ -48,6 +51,11 @@
       <textarea id="courseWeakness"></textarea><div class="hint" data-for="courseWeakness"></div>
       <label for="suggestion">Suggestions</label>
       <textarea id="suggestion"></textarea><div class="hint" data-for="suggestion"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>When to fill</legend>
+      <label><input type="checkbox" id="autoFill" /> Also fill each form as soon as it opens, without pressing Autofill</label>
     </fieldset>
 
     <button id="save" type="button">Save</button>

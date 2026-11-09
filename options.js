@@ -1,25 +1,27 @@
-const { DEFAULTS, RATING, PACE, LOAD, TEXT_KEYS, textProblem, wordCount } = globalThis.FeedbackCore;
+const { DEFAULTS, SCALES, CHOICE_KEYS, TEXT_KEYS, normalizeText, textProblem, wordCount } = globalThis.FeedbackCore;
 
-const SELECTS = { rating: RATING, pace: PACE, effort: LOAD, workload: LOAD };
 const $ = (id) => document.getElementById(id);
 
-for (const [id, options] of Object.entries(SELECTS)) {
-  for (const o of options) $(id).add(new Option(o, o));
+for (const id of CHOICE_KEYS) {
+  for (const o of SCALES[id]) $(id).add(new Option(o, o));
 }
 
 function show(values) {
   $('autoFill').checked = !!values.autoFill;
-  for (const id of Object.keys(SELECTS)) $(id).value = values[id];
+  for (const id of CHOICE_KEYS) $(id).value = values[id];
   for (const k of TEXT_KEYS) $(k).value = values[k];
+  $('unsaved').hidden = !!values.savedAt;
   check();
 }
 
+// Checks the text as it will be saved (whitespace collapsed).
 function check() {
   let ok = true;
   for (const k of TEXT_KEYS) {
-    const problem = textProblem(k, $(k).value);
+    const text = normalizeText($(k).value);
+    const problem = textProblem(k, text);
     const hint = document.querySelector(`[data-for="${k}"]`);
-    hint.textContent = problem || `${wordCount($(k).value)} words`;
+    hint.textContent = problem || `${wordCount(text)} words`;
     hint.classList.toggle('bad', !!problem);
     if (problem) ok = false;
   }
@@ -33,16 +35,22 @@ $('save').addEventListener('click', () => {
     $('status').textContent = 'Fix the red word counts first; the ERP rejects them.';
     return;
   }
-  const values = { autoFill: $('autoFill').checked };
-  for (const id of Object.keys(SELECTS)) values[id] = $(id).value;
-  for (const k of TEXT_KEYS) values[k] = $(k).value.trim();
+  const values = { autoFill: $('autoFill').checked, savedAt: Date.now() };
+  for (const id of CHOICE_KEYS) values[id] = $(id).value;
+  for (const k of TEXT_KEYS) values[k] = normalizeText($(k).value);
   chrome.storage.sync.set(values, () => {
-    $('status').textContent = 'Saved. Open tabs pick it up at once.';
+    if (chrome.runtime.lastError) {
+      $('status').textContent = `Not saved: ${chrome.runtime.lastError.message}`;
+      return;
+    }
+    for (const k of TEXT_KEYS) $(k).value = values[k];
+    $('unsaved').hidden = true;
+    $('status').textContent = 'Saved. Open ERP tabs use it at once.';
   });
 });
 
 $('reset').addEventListener('click', () => {
-  show(DEFAULTS);
+  show({ ...DEFAULTS, savedAt: $('unsaved').hidden ? 1 : 0 });
   $('status').textContent = 'Defaults shown. Press Save to keep them.';
 });
 

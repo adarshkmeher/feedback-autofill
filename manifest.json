@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "IIT KGP ERP Feedback Autofill",
-  "version": "1.0.0",
-  "description": "Fills the IIT Kharagpur ERP subject feedback form with your saved answers. You type the captcha and press Submit.",
+  "version": "2.0.0",
+  "description": "One click fills the IIT Kharagpur ERP subject feedback form with your saved answers. You type the security code and press Submit.",
   "permissions": ["storage"],
   "content_scripts": [
     {
