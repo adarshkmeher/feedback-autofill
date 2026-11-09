@@ -12,7 +12,8 @@
 // So this script never keeps references to form elements across renders,
 // keeps a per-tab draft of every answer so a re-render loses nothing, and
 // locks Submit for a form whose first submission has no visible outcome.
-// It never types the security code and never presses Submit.
+// It never types the security code and never presses Submit. After the user's
+// own Submit succeeds it opens and fills the next open form.
 (function () {
   if (globalThis.__feedbackAutofill) return;
   globalThis.__feedbackAutofill = true;
@@ -470,7 +471,11 @@
     if (isSubmitted()) {
       lockedKey = null;
       markDone(key);
-      status(`${describe()}: submitted. Press Autofill for the next form.`, 'ok');
+      status(`${describe()}: submitted. Opening the next form...`, 'ok');
+      // The user typed the code and pressed Submit for this form. Open and fill
+      // the next one so only the next code is left to type. onAutofill stops on
+      // any error and never presses Submit.
+      if (!running) await onAutofill();
     } else if (dialog) {
       lockedKey = null; // the ERP answered with an error and saved nothing
       status('The ERP refused this submission; read its message. Fix it, check the security code and press Submit again.', 'bad');

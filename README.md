@@ -4,7 +4,8 @@ A Chrome extension that fills the subject feedback form on the IIT Kharagpur ERP
 (Academic > Feedback > Feedback Form) with answers you save once. One click on
 **Autofill** opens the next form that is not submitted and fills every question.
 You still type the security code and press **Submit** yourself. The extension
-never submits.
+never types the code and never submits. After your Submit succeeds it opens and
+fills the next open form on its own, so each form needs only its code.
 
 ## Install
 
@@ -25,7 +26,11 @@ keeps running the old content script until both happen.
    already submitted, opens the first open one and fills it. The status line says
    what it filled and whether every answer passes the form's checks.
 3. Check the answers, type the security code and press **Submit**.
-4. Press **Autofill** again for the next form.
+4. When the ERP confirms the submission, the next open form opens and fills by
+   itself and the cursor is in its security code box. Repeat step 3 until the
+   status says every form is submitted. If anything goes wrong (ERP error, form
+   that did not load, unknown Submit result) it stops and says why; press
+   **Autofill** to continue.
 
 Autofill fills only blank questions. Answers you picked or typed stay as they are.
 If you tick **Also fill each form as soon as it opens** on the settings page, a
