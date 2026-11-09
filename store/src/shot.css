@@ -1,0 +1,11 @@
+*{box-sizing:border-box}
+html,body{margin:0;width:1280px;height:800px;overflow:hidden;font-family:"Liberation Sans",Arial,sans-serif;color:#1c2733}
+body{background:linear-gradient(135deg,#eaf2fa 0%,#d3e4f5 100%);position:relative}
+.head{position:absolute;left:64px;top:44px;right:64px}
+.head h1{margin:0 0 8px;font-size:44px;line-height:1.1;color:#14344f;letter-spacing:-.5px}
+.head p{margin:0;font-size:22px;color:#3d5a75}
+.win{position:absolute;left:64px;right:64px;top:170px;bottom:0;background:#fff;border-radius:14px 14px 0 0;box-shadow:0 14px 50px rgba(20,52,79,.28);overflow:hidden}
+.bar{height:38px;background:#e8edf2;display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1px solid #d0d8df}
+.bar i{width:12px;height:12px;border-radius:50%;background:#c3ccd5;display:block}
+.bar span{margin-left:12px;font-size:13px;color:#6a7a88;background:#fff;border-radius:6px;padding:4px 14px;flex:1;max-width:520px}
+.body{position:absolute;top:38px;left:0;right:0;bottom:0;overflow:hidden}

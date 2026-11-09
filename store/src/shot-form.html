@@ -1,0 +1,72 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="shot.css">
+<style>
+.page{padding:18px 26px;font-size:14px}
+.sub{display:flex;gap:26px;align-items:center;margin-bottom:10px;color:#44566a;font-size:14px}
+.sub b{color:#14344f}
+table{border-collapse:collapse;width:100%}
+td{padding:7px 8px;border-bottom:1px solid #edf1f5;vertical-align:middle}
+td.n{width:36px;color:#7a8896}
+.opts{display:flex;gap:18px;white-space:nowrap}
+.opts label{display:flex;gap:5px;align-items:center;font-size:13px}
+.r{width:14px;height:14px;border-radius:50%;border:1.5px solid #8795a3;display:inline-block}
+.r.on{border-color:#2a6496;background:radial-gradient(#2a6496 0 4px,#fff 5px)}
+.ta{border:1px solid #c7d0d9;border-radius:4px;padding:6px 8px;font-size:12.5px;color:#27384a;background:#fcfdfe;line-height:1.35}
+.panel{display:flex;align-items:center;gap:10px;margin:10px 0;padding:9px 11px;border:1px solid #2a6496;border-radius:6px;background:#f5f9fc;font-size:13px;line-height:1.4}
+.btn{background:#2a6496;color:#fff;border-radius:4px;padding:5px 12px;font-size:13px}
+.ok{color:#1b6e20}
+.cap{display:flex;gap:14px;align-items:center;margin-top:10px}
+.img{width:130px;height:44px;border:1px solid #c7d0d9;border-radius:4px;background:linear-gradient(90deg,#f1f5f9,#e5ecf3);display:flex;align-items:center;justify-content:center;font:italic bold 24px "DejaVu Sans",sans-serif;letter-spacing:4px;color:#51657a;text-decoration:line-through;text-decoration-color:#9db3c8}
+.inp{border:2px solid #2a6496;border-radius:4px;width:170px;height:36px;padding:7px 10px;font-size:16px;box-shadow:0 0 0 3px rgba(42,100,150,.2)}
+.caret{display:inline-block;width:1.5px;height:18px;background:#14344f;vertical-align:middle}
+.sbtn{background:#1b6e20;color:#fff;border-radius:4px;padding:9px 22px;font-size:14px;font-weight:700}
+.tag{position:absolute;right:30px;background:#14344f;color:#fff;border-radius:8px;padding:8px 14px;font-size:15px;box-shadow:0 6px 18px rgba(20,52,79,.35)}
+.side{position:absolute;left:0;top:0;bottom:0;width:250px;background:#f3f7fb;border-right:1px solid #dde5ec;padding:16px 18px;font-size:14px}
+.side h4{margin:0 0 10px;font-size:13px;color:#6a7a88;text-transform:uppercase;letter-spacing:.8px}
+.side div{padding:7px 0;display:flex;gap:9px;align-items:center}
+.side .done{color:#1b6e20}.side .now{color:#14344f;font-weight:700}.side .todo{color:#6a7a88}
+.main{position:absolute;left:250px;right:0;top:0;bottom:0}
+.prog{height:8px;background:#dde5ec;border-radius:4px;margin:12px 0 4px}.prog i{display:block;flex:none;height:100%;border-radius:4px;background:#1b6e20;width:125px}.prog{padding:0!important;display:block!important}
+</style>
+<body id="b">
+<div class="head"><h1 id="t"></h1><p id="s"></p></div>
+<div class="win"><div class="bar"><i></i><i></i><i></i><span>Sample feedback form (illustration)</span></div>
+<div class="body" id="body"></div></div>
+<script>
+const v=new URLSearchParams(location.search).get('v');
+const radios=(n,pick)=>'<div class="opts">'+['Excellent','Very good','Good','Fair','Poor'].map((l,i)=>`<label><span class="r ${i==pick?'on':''}"></span>${l}</label>`).join('')+'</div>';
+const row=(n,q,pick)=>`<tr><td class="n">${n}</td><td>${q}</td><td>${radios(n,pick)}</td></tr>`;
+const rows=[['1','The teacher explains the subject clearly',1],['2','The teacher is well prepared for class',1],['3','The course content is relevant',1],['4','Course material and slides were helpful',1],['5','The teacher is approachable for doubts',1],['6','Assignments helped me learn',1],['7','Tests matched what was taught',1],['8','Overall, I would rate the teacher',1]];
+const strength='The teacher knows the subject well and explains the core ideas clearly with examples, which made the lectures easy to follow.';
+const sugg='Sharing slides and practice problems in advance and holding a short revision session before each test would help students a lot.';
+const cfg={
+'2':{t:'One click fills every question',s:'Autofill opens the next open form and fills the ratings and comments you saved.'},
+'3':{t:'You type the code and press Submit',s:'The extension never types the security code and never presses Submit.'},
+'4':{t:'The next form opens by itself',s:'After your Submit succeeds, the next open form is filled and the cursor waits in the code box.'}};
+document.getElementById('t').textContent=cfg[v].t;document.getElementById('s').textContent=cfg[v].s;
+const body=document.getElementById('body');
+if(v=='2'){
+body.innerHTML=`<div class="page"><div class="sub"><span>Subject: <b>SUB101 Sample Subject</b></span><span>Teacher: <b>Sample Teacher</b></span></div>
+<table>${rows.map(r=>row(...r)).join('')}</table>
+<div class="ta" style="margin-top:12px"><b>Q11 Strength</b> &nbsp;${strength}</div>
+<div class="ta" style="margin-top:8px"><b>Q12 Weakness</b> &nbsp;Sometimes the pace was a little uneven, and a few more worked examples before the tests would help students practise.</div>
+<div class="ta" style="margin-top:8px"><b>Q15 Suggestions</b> &nbsp;${sugg}</div>
+<div class="panel"><span class="btn">Autofill</span><span class="ok">SUB101 / Sample Teacher: filled 15. Every question passes the form's checks. Type the security code, then press Submit.</span></div></div>`;
+}
+if(v=='3'){
+body.innerHTML=`<div class="page"><div class="ta"><b>Q11 Strength</b> &nbsp;${strength}</div><div class="ta" style="margin-top:8px"><b>Q12 Weakness</b> &nbsp;Sometimes the pace was a little uneven, and a few more worked examples before the tests would help students practise.</div><div class="ta" style="margin-top:8px"><b>Q15 Suggestions</b> &nbsp;${sugg}</div>
+<div class="panel"><span class="btn">Autofill</span><span class="ok">SUB101 / Sample Teacher: filled 15. Every question passes the form's checks. Type the security code, then press Submit.</span></div>
+<div class="cap"><div class="img">7K4Q2</div><div class="inp"><span style="font-size:16px">7K4Q2</span><span class="caret"></span></div><div class="sbtn">Submit</div></div>
+<div class="tag" style="top:262px;right:auto;left:330px;font-size:16px">&#8593; You type the code and press Submit</div>
+</div>`;
+}
+if(v=='4'){
+body.innerHTML=`<div class="side"><h4>Subjects and teachers</h4>
+<div class="done">&#10003; SUB101 / Teacher A</div><div class="done">&#10003; SUB101 / Teacher B</div><div class="done">&#10003; SUB204 / Teacher C</div>
+<div class="now">&#9654; SUB204 / Teacher D</div><div class="todo">&#9675; LAB301 / Teacher E</div><div class="todo">&#9675; LAB301 / Teacher F</div>
+<div class="prog"><i></i></div><div style="font-size:12px;color:#6a7a88">3 of 6 submitted</div></div>
+<div class="main"><div class="page"><div class="sub"><span>Subject: <b>SUB204 Sample Subject</b></span><span>Teacher: <b>Teacher D</b></span></div>
+<table>${rows.slice(0,4).map(r=>row(...r)).join('')}</table>
+<div class="panel"><span class="btn">Autofill</span><span class="ok">SUB204 / Teacher C: submitted. Opening the next form...</span></div>
+<div class="cap"><div class="img">M2X9B</div><div class="inp"><span class="caret"></span></div><div class="sbtn">Submit</div></div></div></div>`;
+}
+</script>

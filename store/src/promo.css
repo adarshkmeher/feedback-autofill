@@ -1,0 +1,3 @@
+*{box-sizing:border-box}html,body{margin:0;overflow:hidden;font-family:"Liberation Sans",Arial,sans-serif}
+body{background:linear-gradient(135deg,#1d4a70 0%,#3b82c4 100%);color:#fff;display:flex;align-items:center;justify-content:center;gap:var(--gap)}
+img{width:var(--ic);height:var(--ic)}h1{margin:0;font-size:var(--h);line-height:1.1;letter-spacing:-.5px}p{margin:8px 0 0;font-size:var(--p);color:#d6e6f5}

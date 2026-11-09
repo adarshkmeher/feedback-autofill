@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head><script>
+window.chrome={storage:{sync:{get:(d,cb)=>cb(Object.assign({},d,{savedAt:1,autoFill:true})),set:(v,cb)=>cb&&cb()}}};
+</script>
+    <meta charset="utf-8" />
+    <title>Feedback autofill settings</title>
+    <style>
+      body { font: 13px/1.4 system-ui, sans-serif; margin: 12px; min-width: 0; max-width: none; color: #222; }
+      h1 { font-size: 16px; margin: 0 0 8px; }
+      fieldset { border: 1px solid #ccc; border-radius: 6px; margin: 0 0 10px; padding: 8px 10px; }
+      legend { font-weight: 600; }
+      label { display: block; margin: 6px 0 2px; }
+      select, textarea { width: 100%; box-sizing: border-box; font: inherit; }
+      textarea { min-height: 54px; }
+      .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+      .hint { font-size: 12px; color: #666; }
+      .bad { color: #b00020; }
+      #status { margin-left: 8px; }
+    </style>
+  </head>
+  <body>
+    <h1>ERP feedback autofill</h1>
+    <p class="hint">
+      Autofill types only the answers you save here. Answers are picked by option label, so one setting covers
+      theory and lab forms. The extension never types the security code and never presses Submit.
+    </p>
+    <p id="unsaved" class="bad" hidden>Not saved yet: Autofill stays off until you check these answers and press Save.</p>
+
+    <fieldset>
+      <legend>Ratings</legend>
+      <div class="row">
+        <div><label for="rating">Excellent ... Poor questions</label><select id="rating"></select></div>
+        <div><label for="pace">Pace of teaching</label><select id="pace"></select></div>
+        <div><label for="effort">Your effort</label><select id="effort"></select></div>
+        <div><label for="workload">Workload vs other courses</label><select id="workload"></select></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Comments</legend>
+      <p class="hint">
+        Strength and weakness: 10 to 50 words. Suggestions: at least 10 words. Every comment: at most 500 characters.
+        Line breaks and double spaces become single spaces, because the ERP rejects them.
+      </p>
+      <label for="teacherStrength">Teacher strength (lab forms use this too)</label>
+      <textarea id="teacherStrength"></textarea><div class="hint" data-for="teacherStrength"></div>
+      <label for="teacherWeakness">Teacher weakness (lab forms use this too)</label>
+      <textarea id="teacherWeakness"></textarea><div class="hint" data-for="teacherWeakness"></div>
+      <label for="courseStrength">Course strength</label>
+      <textarea id="courseStrength"></textarea><div class="hint" data-for="courseStrength"></div>
+      <label for="courseWeakness">Course weakness</label>
+      <textarea id="courseWeakness"></textarea><div class="hint" data-for="courseWeakness"></div>
+      <label for="suggestion">Suggestions</label>
+      <textarea id="suggestion"></textarea><div class="hint" data-for="suggestion"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>When to fill</legend>
+      <label><input type="checkbox" id="autoFill" /> Also fill each form as soon as it opens, without pressing Autofill</label>
+    </fieldset>
+
+    <button id="save" type="button">Save</button>
+    <button id="reset" type="button">Restore defaults</button>
+    <span id="status" class="hint"></span>
+
+    <script src="../../core.js"></script>
+    <script src="../../options.js"></script>
+  </body>
+</html>
