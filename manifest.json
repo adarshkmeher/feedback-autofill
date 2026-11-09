@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "IIT KGP ERP Feedback Autofill",
+  "version": "1.0.0",
+  "description": "Fills the IIT Kharagpur ERP subject feedback form with your saved answers. You type the captcha and press Submit.",
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["https://erp.iitkgp.ac.in/Academic/studentFeedbackResponseView.htm*"],
+      "js": ["core.js", "content.js"],
+      "all_frames": true,
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "Feedback autofill settings",
+    "default_popup": "options.html"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  }
+}
